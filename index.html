@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venta</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Venta Producto</h1>
+        <form>
+            <div class="form-group">
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" oninput="updateTotal()">
+            </div>
+            <div class="form-group">
+                <label for="price">Precio por unidad ($):</label>
+                <input type="number" id="price" name="price" min="1" value="0" oninput="updateTotal()">
+            </div>
+            <div class="form-group">
+                <label for="payment">Cantidad con la que paga ($):</label>
+                <input type="number" id="payment" name="payment" min="0" value="0">
+            </div>
+            <button type="button" onclick="calculateChange()">Calcular</button>
+        </form>
+        <p id="total">Total: $0.00</p>
+        <p id="change">Cambio: $0.00</p>
+    </div>
+
+    <script>
+        function updateTotal() {
+            const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const total = quantity * price;
+
+            document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        function calculateChange() {
+            const total = parseFloat(document.getElementById('total').textContent.replace('Total: $', '')) || 0;
+            const payment = parseFloat(document.getElementById('payment').value) || 0;
+            const change = payment - total;
+
+            if (change < 0) {
+                document.getElementById('change').textContent = `Cambio: Pago insuficiente, faltan $${Math.abs(change).toFixed(2)}`;
+            } else {
+                document.getElementById('change').textContent = `Cambio: $${change.toFixed(2)}`;
+            }
+        }
+    </script>
+</body>
+</html>
